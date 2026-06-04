@@ -9,7 +9,7 @@ from config.constants import (
     ANTHROPIC_DEFAULT_MAX_OUTPUT_TOKENS,
     HTTP_CONNECT_TIMEOUT_DEFAULT,
 )
-from config.nim import NimSettings
+from config.nim import NIM_DEFAULT_MAX_OUTPUT_TOKENS, NimSettings
 
 
 class TestSettings:
@@ -470,7 +470,7 @@ class TestNimSettingsValidators:
     """Test custom field validators in NimSettings."""
 
     def test_default_max_tokens_matches_shared_constant(self):
-        assert NimSettings().max_tokens == ANTHROPIC_DEFAULT_MAX_OUTPUT_TOKENS
+        assert NimSettings().max_tokens == NIM_DEFAULT_MAX_OUTPUT_TOKENS
 
     @pytest.mark.parametrize(
         "seed_val,expected",
