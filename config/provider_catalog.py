@@ -26,6 +26,7 @@ LLAMACPP_DEFAULT_BASE = "http://localhost:8080/v1"
 OLLAMA_DEFAULT_BASE = "http://localhost:11434"
 OPENCODE_DEFAULT_BASE = "https://opencode.ai/zen/v1"
 ZAI_DEFAULT_BASE = "https://api.z.ai/api/coding/paas/v4"
+LITELLM_DEFAULT_BASE = "http://127.0.0.1:4000/v1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -154,6 +155,16 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
         credential_attr="fireworks_api_key",
         default_base_url=FIREWORKS_DEFAULT_BASE,
         proxy_attr="fireworks_proxy",
+        capabilities=("chat", "streaming", "tools", "thinking", "rate_limit"),
+    ),
+    "litellm": ProviderDescriptor(
+        provider_id="litellm",
+        transport_type="openai_chat",
+        credential_env="LITELLM_MASTER_KEY",
+        credential_attr="litellm_api_key",
+        default_base_url=LITELLM_DEFAULT_BASE,
+        base_url_attr="litellm_base_url",
+        proxy_attr="litellm_proxy",
         capabilities=("chat", "streaming", "tools", "thinking", "rate_limit"),
     ),
 }
