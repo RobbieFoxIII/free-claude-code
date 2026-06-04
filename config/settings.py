@@ -114,6 +114,13 @@ class Settings(BaseSettings):
     # ==================== Cerebras Inference (OpenAI-compatible) ====================
     cerebras_api_key: str = Field(default="", validation_alias="CEREBRAS_API_KEY")
 
+    # ==================== LiteLLM Config ====================
+    litellm_api_key: str = Field(default="", validation_alias="LITELLM_MASTER_KEY")
+    litellm_base_url: str = Field(
+        default="http://127.0.0.1:4000/v1",
+        validation_alias="LITELLM_BASE_URL",
+    )
+
     # ==================== Messaging Platform Selection ====================
     # Valid: "telegram" | "discord" | "none"
     messaging_platform: str = Field(
@@ -174,6 +181,7 @@ class Settings(BaseSettings):
     gemini_proxy: str = Field(default="", validation_alias="GEMINI_PROXY")
     groq_proxy: str = Field(default="", validation_alias="GROQ_PROXY")
     cerebras_proxy: str = Field(default="", validation_alias="CEREBRAS_PROXY")
+    litellm_proxy: str = Field(default="", validation_alias="LITELLM_PROXY")
 
     # ==================== Provider Rate Limiting ====================
     provider_rate_limit: int = Field(default=40, validation_alias="PROVIDER_RATE_LIMIT")

@@ -16,6 +16,7 @@ from providers.gemini import GeminiProvider
 from providers.groq import GroqProvider
 from providers.kimi import KimiProvider
 from providers.llamacpp import LlamaCppProvider
+from providers.litellm import LiteLLMProvider
 from providers.lmstudio import LMStudioProvider
 from providers.mistral import MistralProvider
 from providers.nvidia_nim import NvidiaNimProvider
@@ -44,9 +45,11 @@ def _make_settings(**overrides):
     mock.wafer_api_key = "test_wafer_key"
     mock.opencode_api_key = "test_opencode_key"
     mock.zai_api_key = "test_zai_key"
+    mock.litellm_api_key = "test_litellm_key"
     mock.lm_studio_base_url = "http://localhost:1234/v1"
     mock.llamacpp_base_url = "http://localhost:8080/v1"
     mock.ollama_base_url = "http://localhost:11434"
+    mock.litellm_base_url = "http://127.0.0.1:4000/v1"
     mock.nvidia_nim_proxy = ""
     mock.open_router_proxy = ""
     mock.lmstudio_proxy = ""
@@ -67,6 +70,7 @@ def _make_settings(**overrides):
     mock.groq_proxy = ""
     mock.cerebras_api_key = ""
     mock.cerebras_proxy = ""
+    mock.litellm_proxy = ""
     mock.provider_rate_limit = 40
     mock.provider_rate_window = 60
     mock.provider_max_concurrency = 5
@@ -188,6 +192,7 @@ def test_create_provider_instantiates_each_builtin():
         "gemini": GeminiProvider,
         "groq": GroqProvider,
         "cerebras": CerebrasProvider,
+        "litellm": LiteLLMProvider,
     }
 
     with (
