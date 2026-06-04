@@ -49,3 +49,34 @@ def test_build_request_body_preserves_litellm_alias() -> None:
 
     assert body["model"] == "cerebras-fast"
     assert body["messages"][0]["role"] == "system"
+
+
+def test_build_request_body_does_not_replay_reasoning_content() -> None:
+    provider = LiteLLMProvider(
+        ProviderConfig(api_key="test-litellm-key", base_url=LITELLM_DEFAULT_BASE)
+    )
+    request = MockRequest()
+    request.messages = [
+        MockMessage(
+            "assistant",
+            [
+                {"type": "thinking", "thinking": "private reasoning"},
+                {
+                    "type": "tool_use",
+                    "id": "tool-1",
+                    "name": "Grep",
+                    "input": {"pattern": "litellm"},
+                },
+            ],
+        ),
+        MockMessage(
+            "user",
+            [{"type": "tool_result", "tool_use_id": "tool-1", "content": "found"}],
+        ),
+    ]
+
+    body = provider._build_request_body(request, thinking_enabled=True)
+
+    assert all("reasoning_content" not in message for message in body["messages"])
+    assert body["messages"][1]["tool_calls"][0]["id"] == "tool-1"
+    assert body["messages"][2]["tool_call_id"] == "tool-1"
